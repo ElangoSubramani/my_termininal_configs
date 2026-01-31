@@ -1,0 +1,173 @@
+" Basic Settings
+set number
+set relativenumber
+syntax on
+set encoding=utf-8
+set fileencoding=utf-8
+set ruler
+set cursorline
+set mouse=a
+set clipboard=unnamedplus
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set smartindent
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmatch
+set wrap
+set cmdheight=2
+set timeoutlen=300
+let mapleader=" "
+set nobackup
+set noswapfile
+set nowritebackup
+set undofile
+set scrolloff=8
+set termguicolors
+set background=dark
+set colorcolumn=
+" Key Mappings
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <leader>n :nohlsearch<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+
+" Plugin Management with vim-plug
+call plug#begin('~/.vim/plugged')
+
+" Plugin for better syntax highlighting
+Plug 'sheerun/vim-polyglot'
+
+" Airline status/tabline plugin
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" VSCode-like dark theme
+Plug 'tomasiser/vim-code-dark'
+
+" Fuzzy finder
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+" File explorer
+Plug 'preservim/nerdtree'
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+
+" Auto-completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Python-specific plugins
+Plug 'vim-python/python-syntax'
+Plug 'klen/python-mode'
+
+" Linting and formatting
+Plug 'dense-analysis/ale'
+
+" Commenting
+Plug 'tpope/vim-commentary'
+nnoremap <leader>c :Commentary<CR>
+
+" Surround text objects
+Plug 'tpope/vim-surround'
+
+
+call plug#end()
+
+" Colorscheme (load after plugins)
+try
+  colorscheme codedark
+  " Custom colors - VS Code style
+  hi Normal guibg=#1e1e1e guifg=#d4d4d4
+  hi CursorLine guibg=#2a2a2a
+  hi LineNr guifg=#5a5a5a guibg=#1e1e1e
+  hi CursorLineNr guifg=#c6c6c6 guibg=#2a2a2a gui=bold
+  hi SignColumn guibg=#1e1e1e
+  hi Pmenu guibg=#252526 guifg=#cccccc
+  hi PmenuSel guibg=#094771 guifg=#ffffff
+  
+  " Syntax colors - GREEN classes like VS Code
+  hi Type guifg=#4ec9b0 gui=bold
+  hi Structure guifg=#4ec9b0 gui=bold
+  hi Keyword guifg=#c586c0
+  hi Function guifg=#dcdcaa
+  hi String guifg=#ce9178
+  hi Number guifg=#b5cea8
+  hi Comment guifg=#6a9955 gui=italic
+  hi Identifier guifg=#9cdcfe
+  hi Constant guifg=#4fc1ff
+  hi Operator guifg=#d4d4d4
+  hi Special guifg=#ce9178
+catch
+  colorscheme desert
+endtry
+
+" Additional Plugin Configurations
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" NERDTree settings
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
+
+" CoC (Conquer of Completion) settings
+let g:coc_global_extensions = ['coc-pyright', 'coc-json', 'coc-rust-analyzer']
+
+" Use <Tab>/<S-Tab> to navigate completion menu
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
+" CoC key mappings - LSP features
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> K :call CocActionAsync('doHover')<CR>
+nmap <silent> <leader>rn <Plug>(coc-rename)
+nmap <silent> <leader>ca <Plug>(coc-codeaction)
+nmap <silent> <leader>f <Plug>(coc-format)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Navigate back from definition
+nnoremap <silent> gb <C-o>
+nnoremap <silent> gf <C-i>
+
+" ALE settings for linting and fixing
+let g:ale_linters = {
+\   'python': ['ruff', 'mypy'],
+\}
+let g:ale_fixers = {
+\   'python': ['black', 'ruff'],
+\}
+let g:ale_python_black_options = '--line-length=88'
+let g:ale_python_ruff_executable = 'ruff'
+let g:ale_python_ruff_options = '--line-length=88'
+let g:ale_fix_on_save = 1
+
+" Format on save using CoC (disabled - using ALE instead)
+" augroup python_format
+"   autocmd!
+"   autocmd BufWritePre *.py call CocAction('format')
+" augroup END
+
+" Python mode settings
+let g:pymode_lint = 0
+let g:pymode_lint_checker = 'flake8'
+let g:pymode_virtualenv = 1
+let g:pymode_options_colorcolumn = 0
+
+" Python import navigation for gf/:find
+set path+=**
+set suffixesadd=.py
+set path+=.venv/lib/python*/site-packages/**

@@ -1,0 +1,88 @@
+" Vim Configuration for Flutter Development
+
+" Basic Settings
+set number
+set relativenumber
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+set smartindent
+set cursorline
+set showmatch
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wildmenu
+set encoding=utf-8
+set clipboard=unnamedplus
+
+" Enable syntax highlighting
+syntax on
+filetype plugin indent on
+
+" Line wrapping
+set nowrap
+set linebreak
+
+" Show trailing whitespace
+set list
+set listchars=tab:▸\ ,trail:·
+
+" Dart/Flutter specific settings
+autocmd FileType dart setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
+
+" Key mappings
+let mapleader = ","
+
+" Save file
+nnoremap <leader>w :w<CR>
+
+" Quit
+nnoremap <leader>q :q<CR>
+
+" Clear search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+" Navigate between splits
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Flutter commands shortcuts
+nnoremap <leader>fr :!flutter run<CR>
+nnoremap <leader>ft :!flutter test<CR>
+nnoremap <leader>fb :!flutter build apk<CR>
+nnoremap <leader>fd :!flutter doctor<CR>
+nnoremap <leader>fp :!flutter pub get<CR>
+nnoremap <leader>fc :!flutter clean<CR>
+
+" Auto-pairs for brackets
+inoremap ( ()<Left>
+inoremap [ []<Left>
+inoremap { {}<Left>
+inoremap ' ''<Left>
+inoremap " ""<Left>
+
+" Color scheme
+colorscheme desert
+set background=dark
+
+" Status line
+set laststatus=2
+set statusline=%F%m%r%h%w\ [%{&ff}]\ [%Y]\ [%04l,%04v][%p%%]\ [LEN=%L]
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+nnoremap <space> za
+
+" Backup and swap files
+set nobackup
+set noswapfile
+set undofile
+set undodir=~/.vim/undo
